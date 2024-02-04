@@ -2,45 +2,53 @@ import java.util.Scanner;
 
 public class TicTacToe {
     public static void main(String[] args) {
-        playTicTacToe();
+        TicTacToeGame game = new TicTacToeGame();
+        game.play();
+    }
+}
+
+class TicTacToeGame {
+    private static Scanner scan = new Scanner(System.in);
+    private char[] box;
+
+    public TicTacToeGame() {
+        box = new char[] { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
     }
 
-    private static void playTicTacToe() {
-        Scanner scan = new Scanner(System.in);
-        char[] box = { '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-
+    public void play() {
         System.out.println("Enter box number to select. Enjoy!\n");
 
         boolean boxEmpty = false;
         boolean gameOver = false;
 
         while (!gameOver) {
-            displayBoard(box);
+            displayBoard();
 
             if (!boxEmpty) {
-                initializeBoard(box);
+                initializeBoard();
                 boxEmpty = true;
             }
 
-            if (checkWinner(box, 'X')) {
+            if (checkWinner('X')) {
                 displayResult("You won the game!");
                 gameOver = true;
-            } else if (checkWinner(box, 'O')) {
+            } else if (checkWinner('O')) {
                 displayResult("You lost the game!");
                 gameOver = true;
-            } else if (isBoardFull(box)) {
+            } else if (isBoardFull()) {
                 displayResult("It's a draw!");
                 gameOver = true;
             } else {
-                userMove(box, scan);
+                userMove();
                 if (!gameOver) {
-                    computerMove(box);
+                    computerMove();
                 }
             }
         }
+        scan.close();
     }
 
-    private static void displayBoard(char[] box) {
+    private void displayBoard() {
         System.out.println("\n\n " + box[0] + " | " + box[1] + " | " + box[2] + " ");
         System.out.println("-----------");
         System.out.println(" " + box[3] + " | " + box[4] + " | " + box[5] + " ");
@@ -48,12 +56,12 @@ public class TicTacToe {
         System.out.println(" " + box[6] + " | " + box[7] + " | " + box[8] + " \n");
     }
 
-    private static void initializeBoard(char[] box) {
+    private void initializeBoard() {
         for (int i = 0; i < 9; i++)
             box[i] = ' ';
     }
 
-    private static boolean checkWinner(char[] box, char player) {
+    private boolean checkWinner(char player) {
         return ((box[0] == player && box[1] == player && box[2] == player) || //row
                 (box[3] == player && box[4] == player && box[5] == player) || //row
                 (box[6] == player && box[7] == player && box[8] == player) || //row
@@ -64,7 +72,7 @@ public class TicTacToe {
                 (box[2] == player && box[4] == player && box[6] == player));  //diagonal
     }
 
-    private static boolean isBoardFull(char[] box) {
+    private boolean isBoardFull() {
         for (int i = 0; i < 9; i++) {
             if (box[i] != 'X' && box[i] != 'O') {
                 return false;
@@ -73,7 +81,7 @@ public class TicTacToe {
         return true;
     }
 
-    private static void userMove(char[] box, Scanner scan) {
+    private void userMove() {
         int input;
 
         while (true) {
@@ -90,7 +98,7 @@ public class TicTacToe {
         }
     }
 
-    private static void computerMove(char[] box) {
+    private void computerMove() {
         int rand;
 
         while (true) {
@@ -102,7 +110,7 @@ public class TicTacToe {
         }
     }
 
-    private static void displayResult(String message) {
+    private void displayResult(String message) {
         System.out.println(message + "\nCreated by Shreyas Saha. Thanks for playing!");
     }
 }
